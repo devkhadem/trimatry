@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Sticky Header Styles */
+        body {
+            padding-top: 75px;
+        }
+
+
+        /* Live Agent Button */
+        .live-agent-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #99D9D9, #2D5F66);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(45, 95, 102, 0.4);
+            text-decoration: none;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .live-agent-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(45, 95, 102, 0.6);
+        }
+
+        /* Ultra Modern Chat Box */
+        .chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            z-index: 999;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-widget.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #99D9D9, #2D5F66);
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .chat-header span {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .close-chat:hover { opacity: 1; }
+
+        .chat-body {
+            height: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.bot {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .chat-message.user {
+            background: #2D5F66;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 10px rgba(45, 95, 102, 0.2);
+        }
+
+        .chat-footer {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-footer input:focus {
+            border-color: #2D5F66;
+        }
+
+        .chat-footer button {
+            background: #2D5F66;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-footer button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Fix for navbar overlapping content on scroll */
+        #home, #about, #why-us, #services, #portfolio, #gallery, #blog, #team, #contact, #testimonials {
+            scroll-margin-top: 100px;
+        }
+
+        /* About Section Styles */
+        .about-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        .about-section .section-header {
+            margin-bottom: 30px;
+        }
+        
+        .about-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .about-text-block {
+            padding: 40px;
+            background: #f9f9f9;
+            border-radius: 20px;
+            border-left: 5px solid #2D5F66;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .about-text-block:hover {
+            transform: translateY(-5px);
+        }
+
+        .about-text-block h3 {
+            color: #2D5F66;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+        }
+
+        .about-text-block p {
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .about-text-block.right-card {
+            border-left: none;
+            border-right: 5px solid #2D5F66;
+        }
+
+        .about-stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: #99D9D9;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(45, 95, 102, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #99D9D9, #2D5F66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .stat-item h4 {
+            margin: 10px 0 5px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .about-content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Why Choose Us Section */
+        .why-us-section {
+            padding: 80px 0;
+        }
+
+        .why-us-section .section-header h2 {
+            margin-bottom: 50px;
+        }
+
+        .why-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(45, 95, 102, 0.15);
+            border-top-color: #2D5F66;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(153, 217, 217, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: #2D5F66;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: #2D5F66;
+            color: white;
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .why-us-summary {
+            background: #2D5F66;
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .why-us-summary::before {
+            content: '"';
+            font-size: 100px;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .why-us-summary p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="assets/Trimatry Logo.png" alt="Trimatry Logo">
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero-section" style="background-image: url('assets/images/herobg.webp');">
+            <div class="hero-content">
+                <h1>Sharing the World's Most Innovative Ideas</h1>
+                <p>We champion creativity and aestheticism in every project, pushing boundaries and inspiring progress</p>
+                <a href="#about" class="cta-button">Learn More</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About Us</h2>
+                    <!-- <p>An innovative platform for ideas</p> -->
+                </div>
+                
+                <div class="about-content-grid">
+                    <!-- Philosophy -->
+                    <div class="about-text-block">
+                        <h3><i class="fas fa-lightbulb" style="color: #2D5F66;"></i> Company Philosophy</h3>
+                        <p>Creative and awesome cultural innovative for humanity—embedded with this motto, Trimatry started its journey in 2020 in the field of the digital media world. Trimatry always cherishes genuine cultural heritage and nourishes the pure, simple, and positive thoughts of mind and critics of life and society. We focus on the inherent talents of the present and future and keep keen eyes on the psychological and mental growth of humanity. We try to maintain harmony and a mutual combination of modern technology and the creative nature of masterminds.</p>
+                    </div>
+
+                    <!-- Expertise -->
+                    <div class="about-text-block right-card">
+                        <h3><i class="fas fa-video" style="color: #2D5F66;"></i> Professional Expertise</h3>
+                        <p>Trimatry is a unique production house specializing in Television Programmes, TVC (Television Commercials), OVC (Online Video Commercials), and Video Documentaries. We have over 22 years of experienced professionals who have experience in making Video Documentaries for various Government, National, and International Organizations, Corporates, and NGOs. We also have experience in making television productions, advertisements, short films, etc.</p>
+                    </div>
+                </div>
+
+                <!-- Key Details / Stats -->
+                <div class="about-stats-container">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h4>Established</h4>
+                        <p>2020</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-users-cog"></i></div>
+                        <h4>Experience</h4>
+                        <p>22+ Years</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-film"></i></div>
+                        <h4>Core Services</h4>
+                        <p>TVC, OVC, Documentaries</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                        <h4>Target Clients</h4>
+                        <p>Govt, NGOs, Corporates</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section id="why-us" class="why-us-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What makes us best in the industry?</h2>
+                    <!-- <p>What makes us best in the industry</p> -->
+                </div>
+
+                <div class="why-us-grid">
+                    <!-- 1. Professional Legacy -->
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-history"></i></div>
+                        <h3>Professional Legacy</h3>
+                        <p>Powered by professionals with over 22 years of experience. A proven track record working with Government bodies, International Organizations, Corporates, and NGOs.</p>
+                    </div>
+
+                    <!-- 2. Diverse Production -->
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-photo-video"></i></div>
+                        <h3>Diverse Capabilities</h3>
+                        <p>A unique production house handling a full spectrum of media: TVC, OVC, Television Programmes, Video Documentaries, Short Films, and digital media.</p>
+                    </div>
+
+                    <!-- 3. Human-Centric -->
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                        <h3>Human-Centric Philosophy</h3>
+                        <p>We focus on the psychological and mental growth of humanity, prioritizing genuine cultural heritage and positive societal values over purely commercial interests.</p>
+                    </div>
+
+                    <!-- 4. Modern Synergy -->
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Modern & Creative Synergy</h3>
+                        <p>The "Mastermind" Approach: Combining modern technology with creative nature, ensuring the latest tech serves creative ideas, not just replaces them.</p>
+                    </div>
+                </div>
+
+                <div class="why-us-summary">
+                    <p>"Choose Trimatry because we bridge the gap between 22 years of professional heritage and 2020’s modern digital innovation. We don't just produce videos; we focus on the psychological impact of ideas, combining cutting-edge technology with a deep respect for cultural heritage to serve government, corporate, and NGO sectors worldwide."</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="services-wrapper animate-on-scroll" id="services">
+            <div class="services-main-header">What We Do?</div>
+            <div class="services-services-container">
+                <article class="services-service-box">
+                    <div class="services-box-title">Software</div>
+                    <div class="services-box-description">
+                        <ul>
+                            <li>Process Digitization</li>
+                            <li>Sales Force Automation</li>
+                            <li>Biometric Recognition</li>
+                            <li>HR Automation</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="services-service-box">
+                    <div class="services-box-title">Online Solution</div>
+                    <div class="services-box-description">
+                        <ul>
+                            <li>Website Design</li>
+                            <li>Website Development</li>
+                            <li>SEO Optimization</li>
+                            <li>E-Commerce Platform</li>
+                            <li>Domain Registration</li>
+                            <li>Advanced Hosting</li>
+                            <li>Technical Support</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="services-service-box">
+                    <div class="services-box-title">Social Media</div>
+                    <div class="services-box-description">
+                        <ul>
+                            <li>Profile Creation</li>
+                            <li>Social Media Management</li>
+                            <li>Content Development</li>
+                            <li>Paid Advertising</li>
+
+                            <li>Engagement Monitoring</li>
+                            <li>Performance Reportings</li>
+                            <li>Channel Promotions</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="services-service-box">
+                    <div class="services-box-title">Graphic Design</div>
+                    <div class="services-box-description">
+                        <ul>
+                            <li>Illustration Artwork</li>
+                            <li>Logo Design</li>
+                            <li>Business Card</li>
+                            <li>Book Design</li>
+                            <li>Magazine Design</li>
+                            <li>Advertising Designs</li>
+                            <li>Catalogues Design</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="services-service-box">
+                    <div class="services-box-title">Videos & Animation</div>
+                    <div class="services-box-description">
+                        <ul>
+                            <li>Scripting</li>
+                            <li>Ideas Brainstorming</li>
+                            <li>2D/3D Animation</li>
+                            <li>TVC/OVC Making</li>
+                            <li>Corporate AV</li>
+                            <li>NGO Documentary</li>
+                            <li>TV Programme</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Successfully Completed Projects (Portfolio) -->
+        <section id="portfolio" class="portfolio-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Masterpieces</h2>
+                    <!-- <p>Successfully Completed Projects</p> -->
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=500" alt="Corporate Rebranding"></div>
+                        <div class="portfolio-overlay">
+                            <h3>Corporate Rebranding</h3>
+                            <span>Brand Identity</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb"><img src="assets/images/galary/19.jpeg" alt="Digital Campaign"></div>
+                        <div class="portfolio-overlay">
+                            <h3>Digital Campaign</h3>
+                            <span>Digital Marketing</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-thumb"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=500" alt="Tech Documentary"></div>
+                        <div class="portfolio-overlay">
+                            <h3>Tech Documentary</h3>
+                            <span>Video Production</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Visual Gallery</h2>
+                    <!-- <p>Moments & Motion</p> -->
+                </div>
+                <div class="gallery-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="photo">Photos</button>
+                    <button class="filter-btn" data-filter="video">Videos</button>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item photo">
+                        <img src="assets/images/galary/1.jpg" alt="Event Photo">
+                        <div class="gallery-overlay">
+                            <h4>Annual Tech Summit</h4>
+                            <p>Event Photography</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item video">
+                        <img src="assets/images/galary/10.jpg" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Brand Story: Apex</h4>
+                            <p>Commercial TVC</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="gallery-item photo">
+                        <img src="assets/images/galary/2.jpg" alt="Office Photo">
+                        <div class="gallery-overlay">
+                            <h4>Corporate Culture</h4>
+                            <p>Office Life</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item video">
+                        <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=500" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Documentary: River</h4>
+                            <p>Short Film</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="gallery-item video">
+                        <img src="https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?auto=format&fit=crop&q=80&w=500" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Product Launch</h4>
+                            <p>Promo Video</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="gallery-item photo">
+                        <img src="assets/images/galary/3.jpg" alt="Team Photo">
+                        <div class="gallery-overlay">
+                            <h4>Behind the Scenes</h4>
+                            <p>Production Process</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item video">
+                        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=500" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Creative Workshop</h4>
+                            <p>Team Collaboration</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <!-- Fake Video Content -->
+                    <div class="gallery-item video">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=500" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Brand Launch Event</h4>
+                            <p>Corporate Video</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="gallery-item video">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=500" alt="Video Thumb">
+                        <div class="gallery-overlay">
+                            <h4>Behind the Scenes</h4>
+                            <p>Production Footage</p>
+                        </div>
+                        <div class="play-icon">▶</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog / Ongoing Projects -->
+        <section id="blog" class="blog-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Ongoing Chronicles</h2>
+                    <!-- <p>Live Updates from the Studio</p> -->
+                </div>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=500');"></div>
+                        <div class="blog-content">
+                            <span class="blog-tag">Ongoing</span>
+                            <h3>National Tech Summit Coverage</h3>
+                            <p>We are currently covering the biggest tech event of the year...</p>
+                            <a href="#" class="read-more">Read Update &rarr;</a>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=500');"></div>
+                        <div class="blog-content">
+                            <span class="blog-tag">In Production</span>
+                            <h3>Documentary Series: Roots</h3>
+                            <p>Filming continues in the northern districts for our latest series...</p>
+                            <a href="#" class="read-more">Read Update &rarr;</a>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image" style="background-image: url('assets/images/galary/10.jpg');"></div>
+                        <div class="blog-content">
+                            <span class="blog-tag">Design Phase</span>
+                            <h3>Eco-Friendly Brand Identity</h3>
+                            <p>Brainstorming sessions are in full swing for the new eco-brand...</p>
+                            <a href="#" class="read-more">Read Update &rarr;</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="testimonials-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Our Client Says</h2>
+                    <!-- <p>Acknowledgements & Certifications</p> -->
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">Trimatry's dedication to quality is unmatched. They delivered our corporate documentary on time with exceptional creativity and storytelling.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">JD</div>
+                            <div class="client-details">
+                                <h4>John Doe</h4>
+                                <span>CEO, TechCorp</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">Innovative solutions and a professional team. Their social media management strategies helped us increase our engagement by 200%.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">JS</div>
+                            <div class="client-details">
+                                <h4>Jane Smith</h4>
+                                <span>Director, NGO International</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">The video production quality exceeded our expectations. The cinematography and editing were truly artistic and world-class.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">RB</div>
+                            <div class="client-details">
+                                <h4>Robert Brown</h4>
+                                <span>Marketing Head, Global Brands</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">Working with Trimatry was a seamless experience. They understood our brand vision perfectly and executed it flawlessly.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">AL</div>
+                            <div class="client-details">
+                                <h4>Anita Lewis</h4>
+                                <span>Founder, EcoStyle</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">Their graphic design work transformed our brand identity completely. The attention to detail and creativity exceeded all expectations.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">MK</div>
+                            <div class="client-details">
+                                <h4>Michael Khan</h4>
+                                <span>Marketing Director, TechStart</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-icon">“</div>
+                        <p class="testimonial-text">The website they developed for us is not just beautiful but also highly functional. Our online presence has never been stronger.</p>
+                        <div class="client-info">
+                            <div class="client-avatar">SR</div>
+                            <div class="client-details">
+                                <h4>Sarah Rahman</h4>
+                                <span>CEO, Digital Solutions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="team-container animate-on-scroll" id="team">
+            <div class="section-header">
+                <h2>Our Creative Team</h2>
+                <!-- <p>The Minds Behind The Magic</p> -->
+            </div>
+
+            <div class="team-grid" id="teamGrid">
+                <a href="anarul-profile.html" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="team-card">
+                        <img src="assets/images/creativeteam/anarul.jpg" alt="Anarul" class="team-profile-img">
+                        <div class="team-info-box">
+                            <h3 class="team-member-name">Anarul</h3>
+                            <span class="team-member-role">Director of Graphics & Animation</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="ashraful-profile.html" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="team-card">
+                        <img src="assets/images/creativeteam/asraf.jpg" alt="Asraf" class="team-profile-img">
+                        <div class="team-info-box">
+                            <h3 class="team-member-name">Asraf</h3>
+                            <span class="team-member-role">Script Writer</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="team-card">
+                    <img src="assets/images/creativeteam/emon.jpg" alt="Emon" class="team-profile-img">
+                    <div class="team-info-box">
+                        <h3 class="team-member-name">Emon</h3>
+                        <span class="team-member-role">Video Editor</span>
+                    </div>
+                </div>
+                <a href="hira-profile.html" style="text-decoration: none; color: inherit;">
+                    <div class="team-card">
+                        <img src="assets/images/creativeteam/hira.jpg" alt="Hira" class="team-profile-img">
+                        <div class="team-info-box">
+                            <h3 class="team-member-name">Hira</h3>
+                            <span class="team-member-role">Director of Cinematography</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="noor-profile.html" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="team-card">
+                        <img src="assets/images/creativeteam/noor.jpg" alt="Noor" class="team-profile-img">
+                        <div class="team-info-box">
+                            <h3 class="team-member-name">Noor</h3>
+                            <span class="team-member-role">Art Director</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="team-card">
+                    <a href="sadequr-profile.html"><img src="assets/images/creativeteam/sadequrrahman.jpg" alt="Sadequr Rahman" class="team-profile-img"></a>
+                    <div class="team-info-box">
+                        <a href="sadequr-profile.html" target="_blank" style="text-decoration: none; color: inherit;"><h3 class="team-member-name">Sadequr Rahman</h3></a>
+                        <span class="team-member-role">Chief Visualizer</span>
+                    </div>
+                </div>
+                <a href="samsul-profile.html" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="team-card">
+                        <img src="assets/images/creativeteam/samsulalom.jpg" alt="Samsul Alom" class="team-profile-img">
+                        <div class="team-info-box">
+                            <h3 class="team-member-name">Samsul Alom</h3>
+                            <span class="team-member-role">Creative Director</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="team-card">
+                    <img src="assets/images/creativeteam/talukdar.jpg" alt="Talukdar" class="team-profile-img">
+                    <div class="team-info-box">
+                        <h3 class="team-member-name">Talukdar</h3>
+                        <span class="team-member-role">Marketing Specialist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="partners-section animate-on-scroll">
+            <h2>Our Partners</h2>
+            <!-- <p>We are proud to work with these esteemed organizations</p> -->
+            <div class="partners-container">
+                <div class="partners-scroll-track">
+                    <img src="assets/images/clientslogo/Bangladesh_Police_Emblem.png" alt="Bangladesh Police" class="partner-logo">
+                    <img src="assets/images/clientslogo/Government_Seal_of_Bangladesh.png" alt="a2i" class="partner-logo">
+                    <img src="assets/images/clientslogo/BRAC_logo.png" alt="BRAC" class="partner-logo">
+                    <img src="assets/images/clientslogo/Japan_International_Cooperation_Agency_logo.png" alt="JICA" class="partner-logo">
+                    <img src="assets/images/clientslogo/Google_org_logo.png" alt="Google.org" class="partner-logo">
+                    <img src="assets/images/clientslogo/BEXIMCO_logo.png" alt="Beximco" class="partner-logo">
+                    <img src="assets/images/clientslogo/Logo_of_SK+F.png" alt="SK+F" class="partner-logo">
+                    <img src="assets/images/clientslogo/Save_the_Children_Logo.png" alt="Save the Children" class="partner-logo">
+                    <img src="assets/images/clientslogo/Logo_of_Islami_Bank_Bangladesh.png" alt="IBBL" class="partner-logo">
+                    <img src="assets/images/clientslogo/Seal_of_Janata_Bank_PLC.png" alt="Janata Bank" class="partner-logo">
+                    <img src="assets/images/clientslogo/Small_and_Medium_Enterprise_Foundation_.png" alt="SME Foundation" class="partner-logo">
+                    <img src="assets/images/clientslogo/বাংলাদেশ_ব্যাংকের_প্রতীক.png" alt="Bangladesh Bank" class="partner-logo">
+                    <!-- Duplicated for seamless scroll -->
+                    <img src="assets/images/clientslogo/Bangladesh_Police_Emblem.png" alt="Bangladesh Police" class="partner-logo">
+                    <img src="assets/images/clientslogo/Government_Seal_of_Bangladesh.png" alt="a2i" class="partner-logo">
+                    <img src="assets/images/clientslogo/BRAC_logo.png" alt="BRAC" class="partner-logo">
+                    <img src="assets/images/clientslogo/Japan_International_Cooperation_Agency_logo.png" alt="JICA" class="partner-logo">
+                    <img src="assets/images/clientslogo/Google_org_logo.png" alt="Google.org" class="partner-logo">
+                    <img src="assets/images/clientslogo/BEXIMCO_logo.png" alt="Beximco" class="partner-logo">
+                    <img src="assets/images/clientslogo/Logo_of_SK+F.png" alt="SK+F" class="partner-logo">
+                    <img src="assets/images/clientslogo/Save_the_Children_Logo.png" alt="Save the Children" class="partner-logo">
+                    <img src="assets/images/clientslogo/Logo_of_Islami_Bank_Bangladesh.png" alt="IBBL" class="partner-logo">
+                    <img src="assets/images/clientslogo/Seal_of_Janata_Bank_PLC.png" alt="Janata Bank" class="partner-logo">
+                    <img src="assets/images/clientslogo/Small_and_Medium_Enterprise_Foundation_.png" alt="SME Foundation" class="partner-logo">
+                    <img src="assets/images/clientslogo/বাংলাদেশ_ব্যাংকের_প্রতীক.png" alt="Bangladesh Bank" class="partner-logo">
+                </div>
+            </div>
+        </div>
+
+        <section id="contact" class="contact-section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Get in Touch</h2>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-form">
+                        <h3>Send us a Message</h3>
+                        <form action="#" method="post">
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" placeholder="Message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-button">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="icon"><img src="assets/images/contact/gps.svg" alt="Location Icon"></div>
+                            <!-- <h3>Address</h3> -->
+                            <p>
+                             Oxlip Villa (D/3)<br>
+                                 495-498 Shenpara Parbota, Road-04<br>
+                                 Kashban R/A, Kearimoon, Kafrul, Dhaka-1216, Bangladesh
+                            </p>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon"><img src="assets/images/contact/phone.svg" alt="Phone Icon"></div>
+                            <!-- <h3>Phone</h3> -->
+                            <p>+880 1730 452910<br>
+                            +880 1315 774777</p>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon"><img src="assets/images/contact/envelope-simple.svg" alt="Email Icon"></div>
+                            <!-- <h3>Email</h3> -->
+                            <p> info.trimatry@gmail.com<br>
+                             trimatry@gmail.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <div class="icon"><img src="assets/images/contact/share-network.svg" alt="Social Media Icon"></div>
+                            <!-- <h3>Social Media</h3> -->
+                            <div class="social-links">
+                                <a href="https://www.facebook.com/Trimatry" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.youtube.com/channel/UC_2fxKNnKsvel8tqTXWhNiA" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                                <a href="https://www.instagram.com/trimatry" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.twitter.com/trimatry" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/company/trimatry" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <h3>Find Us Here</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.902!2d90.366!3d23.774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c1b0b0b0b0b0b%3A0x0!2zMjPCsDQ2JzI2LjAiTiA5MMKwMjInMDAuMCJF!5e0!3m2!1sen!2sbd!4v1630000000000!5m2!1sen!2sbd" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Trimatry</h3>
+                    <p>We are a creative agency specializing in software development, online solutions, social media management, graphic design, and video production. Pushing boundaries and inspiring progress through innovation.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services">Software Development</a></li>
+                        <li><a href="#services">Online Solutions</a></li>
+                        <li><a href="#services">Social Media</a></li>
+                        <li><a href="#services">Graphic Design</a></li>
+                        <li><a href="#services">Videos & Animation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Oxlip Villa (D/3), Dhaka-1216, Bangladesh</p>
+                    <p><i class="fas fa-phone"></i> +880 1730 452910</p>
+                    <p><i class="fas fa-envelope"></i> info.trimatry@gmail.com</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/Trimatry" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.youtube.com/channel/UC_2fxKNnKsvel8tqTXWhNiA" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/trimatry" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.twitter.com/trimatry" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/trimatry" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Trimatry. All rights reserved. | Sharing the World's Most Innovative Ideas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Live Agent Button -->
+    <div class="live-agent-btn" id="liveAgentBtn" title="Chat with us">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <div>
+                <h4>Trimatry Support</h4>
+                <span>We typically reply in minutes</span>
+            </div>
+            <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot">Hello! 👋 How can we help you innovate today?</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Type a message...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#' || !targetId) return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

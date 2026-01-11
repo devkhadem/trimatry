@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trimatri Media Agency - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://unpkg.com/lucide-react@latest/dist/style.css" rel="stylesheet"/>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0fdfd;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 120px;
+        }
+
+        /* CV Main Container */
+        .visual-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* Left Panel: Identity and Details */
+        .info-sidebar {
+            background: #2D5F66;
+            color: white;
+            padding: 30px 15px;
+            border-radius: 20px;
+            text-align: center;
+            height: 100%;
+            box-shadow: 0 20px 40px rgba(45, 95, 102, 0.3);
+        }
+
+        .person-photo {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.3);
+            margin-bottom: 25px;
+        }
+
+        .main-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .role-subline {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+        }
+
+        .data-point {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .label-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .bold-val {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        /* Right Panel: Narrative Description */
+        .bio-narrative {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .bio-narrative h2 {
+            font-size: 24px;
+            color: #2D5F66;
+            margin-bottom: 20px;
+        }
+
+        .bio-narrative p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .key-strengths {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+            list-style: none;
+        }
+
+        .strength-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            border-left: 3px solid #2D5F66;
+        }
+
+        @media (max-width: 768px) {
+            .visual-wrapper { grid-template-columns: 1fr; }
+            .info-sidebar { position: static; }
+        }
+
+        /* Ensure global header/footer take full width */
+        header, footer {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <img src="assets/Trimatry Logo.png" alt="Trimatry Logo">
+        </div>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="visual-wrapper">
+    <aside class="info-sidebar">
+        <img src="assets/images/creativeteam/noor.jpg" alt="H M Noor" class="person-photo">
+        
+        <h1 class="main-name">H M Noor</h1>
+        <p class="role-subline">Art Director</p>
+
+        <div class="data-point">
+            <span class="label-text">Education</span>
+            <span class="bold-val">Master of Arts (2016)</span>
+        </div>
+
+        <div class="data-point">
+            <span class="label-text">Experience</span>
+            <span class="bold-val">10+ Years</span>
+        </div>
+    </aside>
+
+    <main class="bio-narrative">
+        <h2>Professional Biography</h2>
+        <p><strong>H M Noor</strong> serves as the Art Director at <strong>Trimatri Media Agency</strong>, where he leads with vision and creativity in shaping the visual identity of diverse projects. With a keen eye for design and a deep understanding of visual storytelling, he oversees the artistic direction that defines the agency's work.</p>
+        <p>His expertise lies in combining innovation with aesthetic precision, ensuring that each project reflects both originality and professional excellence. Under his direction, visual concepts are transformed into impactful designs that engage audiences and enhance brand communication.</p>
+        <p>H M Noor has completed his masters from National University of Bangladesh in 2016. He worked as a Chief Assistant Director with many renowned film makers and directors for making many Film & Short Films, TV Dramas, Documentary Films on many National and Multinational organizations like CDD, Walton, JICA, and BBC Bangla as cinematographer. He is a member of Dhaka Theater form 2003. He has already proved his work in many local televisions like, Bangla Vision, Diganta TV, etc.</p>
+
+        <h2 style="margin-top: 40px;">Key Strengths</h2>
+        <ul class="key-strengths">
+            <li class="strength-item">Visual Storytelling</li>
+            <li class="strength-item">Set Design & Aesthetics</li>
+            <li class="strength-item">Cinematography</li>
+            <li class="strength-item">Creative Direction</li>
+        </ul>
+    </main>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Trimatry</h3>
+                <p>We are a creative agency specializing in software development, online solutions, social media management, graphic design, and video production. Pushing boundaries and inspiring progress through innovation.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#services">Software Development</a></li>
+                    <li><a href="#services">Online Solutions</a></li>
+                    <li><a href="#services">Social Media</a></li>
+                    <li><a href="#services">Graphic Design</a></li>
+                    <li><a href="#services">Videos & Animation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Oxlip Villa (D/3), Dhaka-1216, Bangladesh</p>
+                <p><i class="fas fa-phone"></i> +880 1730 452910</p>
+                <p><i class="fas fa-envelope"></i> info.trimatry@gmail.com</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/Trimatry" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/channel/UC_2fxKNnKsvel8tqTXWhNiA" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/trimatry" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.twitter.com/trimatry" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/company/trimatry" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Trimatry. All rights reserved. | Sharing the World's Most Innovative Ideas</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+    // JS: Simple log to confirm loading
+    window.onload = () => {
+        console.log("Portfolio Page for H M Noor Loaded Successfully.");
+    };
+</script>
+
+</body>
+</html>
